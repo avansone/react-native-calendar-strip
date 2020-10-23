@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import { Duration } from "moment";
+import { Duration, Moment } from "moment";
 import {
   StyleProp,
   ViewStyle,
@@ -13,10 +13,10 @@ declare module "react-native-calendar-strip" {
     duration: number;
     borderWidth: number;
     borderHighlightColor: string;
-    animType?: any;
-    animUpdateType?: any;
-    animProperty?: any;
-    animSpringDamping?: any;
+    animType: any;
+    animUpdateType: any;
+    animProperty: any;
+    animSpringDamping: any;
   }
 
   interface IDaySelectionAnimationBackground {
@@ -53,7 +53,7 @@ declare module "react-native-calendar-strip" {
     size: number;
     allowDayTextScaling: boolean;
     markedDatesStyle: TextStyle;
-    markedDates?: any[] | (date: Date) => void;
+    markedDates?: any[] | ((date: Date) => void);
   }
 
   type TDaySelectionAnimation =
@@ -75,15 +75,17 @@ declare module "react-native-calendar-strip" {
       scrollable?: boolean;
       startingDate?: Date;
       selectedDate?: Date;
-      onDateSelected?: (date: Date) => void;
+      onDateSelected?: (date: Moment.moment) => void;
       onWeekChanged?: (start: Date, end: Date) => void;
       onHeaderSelected?: ({weekStartDate: Date, weekEndDate: Date}) => void;
       updateWeek?: boolean;
       useIsoWeekday?: boolean;
       minDate?: Date;
       maxDate?: Date;
-      datesWhitelist?: TDateRange[] | (date: Date) => void;
-      datesBlacklist?: TDateRange[] | (date: Date) => void;
+      datesWhitelist?: TDateRange[] | ((date: Date) => void);
+      datesBlacklist?: TDateRange[] | ((date: Date) => void);
+
+      daySelectionAnimation: any;
 
       showMonth?: boolean;
       showDayName?: boolean;
@@ -114,7 +116,7 @@ declare module "react-native-calendar-strip" {
       };
       daySelectionAnimation?: TDaySelectionAnimation;
 
-      customDatesStyles?: any[] | (date: Date) => void;
+      customDatesStyles?: any[] | ((date: Date) => void);
 
       dayComponent?: (props: IDayComponentProps) => ReactNode;
 
@@ -144,3 +146,4 @@ declare module "react-native-calendar-strip" {
 
   export = ReactNativeCalendarStrip;
 }
+export default ReactNativeCalendarStrip;
