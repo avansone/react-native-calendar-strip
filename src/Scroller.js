@@ -6,7 +6,7 @@
 // an infinite scroller.
 
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import PropTypes from "prop-types";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 import moment from "moment";
@@ -128,6 +128,11 @@ export default class CalendarScroller extends Component {
     this.updateDays(prevVisStart, newStartDate);
   }
 
+  scrollToDate = (newStartDate) => {
+    const index = this.state.data.findIndex(x => x.date.isSame(newStartDate));
+    this.rlv.scrollToIndex(index);
+  }
+
   updateDays = (prevVisStart, newStartDate) => {
     if (this.shifting) {
       return;
@@ -245,6 +250,7 @@ export default class CalendarScroller extends Component {
       return null;
     }
     return (
+      <View>
       <View
         style={{ height: this.state.itemHeight, flex: 1 }}
         onLayout={this.onLayout}
@@ -262,7 +268,8 @@ export default class CalendarScroller extends Component {
             showsHorizontalScrollIndicator: false,
             contentContainerStyle: {paddingRight: this.state.itemWidth / 2},
           }}
-        />
+        />        
+      </View>      
       </View>
     );
   }
