@@ -6,7 +6,7 @@
 // an infinite scroller.
 
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import PropTypes from "prop-types";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 import moment from "moment";
@@ -87,7 +87,7 @@ export default class CalendarScroller extends Component {
 
     if (this.props.data !== prevProps.data) {
       updateState = true;
-      newState = {...newState, ...this.updateDaysData(this.props.data)};
+      newState = { ...newState, ...this.updateDaysData(this.props.data) };
     }
 
     if (updateState) {
@@ -124,12 +124,14 @@ export default class CalendarScroller extends Component {
   // Shift dates when beginning of list is reached.
   shiftDaysBackward = (visibleStartDate) => {
     const prevVisStart = visibleStartDate.clone();
-    const newStartDate = prevVisStart.clone().subtract(Math.floor(this.state.numDays * 2/3), "days");
+    const newStartDate = prevVisStart.clone().subtract(Math.floor(this.state.numDays * 2 / 3), "days");
     this.updateDays(prevVisStart, newStartDate);
   }
 
   scrollToDate = (newStartDate) => {
-    const index = this.state.data.findIndex(x => x.date.isSame(newStartDate));
+    this.updateDaysData(this.props.data);
+    const day = newStartDate.clone();
+    const index = this.state.data.findIndex(x => x.date.isSame(day));
     this.rlv.scrollToIndex(index);
   }
 
@@ -151,7 +153,7 @@ export default class CalendarScroller extends Component {
       if (maxDate && date.isAfter(maxDate, "day")) {
         break;
       }
-      data.push({date});
+      data.push({ date });
     }
     // Prevent reducing range when the minDate - maxDate range is small.
     if (data.length < this.props.maxSimultaneousDays) {
@@ -201,11 +203,10 @@ export default class CalendarScroller extends Component {
     // Fire month/year update on both week and month changes.  This is
     // necessary for the header and onWeekChanged updates.
     if (!_visStartDate || !_visEndDate ||
-        !visibleStartDate.isSame(_visStartDate, "week") ||
-        !visibleEndDate.isSame(_visEndDate, "week") ||
-        !visibleStartDate.isSame(_visStartDate, "month") ||
-        !visibleEndDate.isSame(_visEndDate, "month") )
-    {
+      !visibleStartDate.isSame(_visStartDate, "week") ||
+      !visibleEndDate.isSame(_visEndDate, "week") ||
+      !visibleStartDate.isSame(_visStartDate, "month") ||
+      !visibleEndDate.isSame(_visEndDate, "month")) {
       const visStart = visibleStartDate && visibleStartDate.clone();
       const visEnd = visibleEndDate && visibleEndDate.clone();
       onWeekChanged && onWeekChanged(visStart, visEnd);
@@ -242,7 +243,7 @@ export default class CalendarScroller extends Component {
   }
 
   rowRenderer = (type, data, i, extState) => {
-    return this.props.renderDay && this.props.renderDay({...data, ...extState});
+    return this.props.renderDay && this.props.renderDay({ ...data, ...extState });
   }
 
   render() {
@@ -250,9 +251,8 @@ export default class CalendarScroller extends Component {
       return null;
     }
     return (
-      <View>
       <View
-        style={{ height: this.state.itemHeight, flex: 1 }}
+        style={{ height: this.state.itemHeight + 15, flex: 1 }}
         onLayout={this.onLayout}
       >
         <RecyclerListView
@@ -266,10 +266,9 @@ export default class CalendarScroller extends Component {
           isHorizontal
           scrollViewProps={{
             showsHorizontalScrollIndicator: false,
-            contentContainerStyle: {paddingRight: this.state.itemWidth / 2},
+            contentContainerStyle: { paddingRight: this.state.itemWidth / 2 },
           }}
-        />        
-      </View>      
+        />
       </View>
     );
   }

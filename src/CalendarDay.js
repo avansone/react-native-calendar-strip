@@ -136,9 +136,8 @@ class CalendarDay extends Component {
     }
 
     if ((prevProps.datesBlacklist !== this.props.datesBlacklist) ||
-        (prevProps.datesWhitelist !== this.props.datesWhitelist) ||
-        hasDateChanged)
-    {
+      (prevProps.datesWhitelist !== this.props.datesWhitelist) ||
+      hasDateChanged) {
       newState = { ...newState, enabled: this.isDateAllowed(this.props.date, this.props.datesBlacklist, this.props.datesWhitelist) };
       doStateUpdate = true;
     }
@@ -150,7 +149,7 @@ class CalendarDay extends Component {
 
   calcSizes = props => {
     return {
-      containerSize: Math.round(props.size),
+      containerSize: Math.round(props.size / 2),
       containerBorderRadius: Math.round(props.size / 2),
       dateNameFontSize: Math.round(props.size / 5),
       dateNumberFontSize: Math.round(props.size / 2.9)
@@ -443,7 +442,7 @@ class CalendarDay extends Component {
 
     let day;
     if (DayComponent) {
-      day = (<DayComponent {...this.props} {...this.state}/>);
+      day = (<DayComponent {...this.props} {...this.state} />);
     }
     else {
       day = (
@@ -451,13 +450,7 @@ class CalendarDay extends Component {
           onPress={onDateSelected.bind(this, date)}
           disabled={!enabled}
         >
-          <View
-            style={[
-              styles.dateContainer,
-              responsiveDateContainerStyle,
-              _dateViewStyle
-            ]}
-          >
+          <View>
             {showDayName && (
               <Text
                 style={[{ fontSize: dateNameFontSize }, _dateNameStyle]}
@@ -467,7 +460,11 @@ class CalendarDay extends Component {
               </Text>
             )}
             {showDayNumber && (
-              <View>
+              <View style={[
+                styles.dateContainer,
+                responsiveDateContainerStyle,
+                _dateViewStyle
+              ]}>
                 <Text
                   style={[
                     { fontSize: dateNumberFontSize },
@@ -477,7 +474,7 @@ class CalendarDay extends Component {
                 >
                   {date.date()}
                 </Text>
-                { this.renderMarking() }
+                { this.renderMarking()}
               </View>
             )}
           </View>
@@ -488,7 +485,7 @@ class CalendarDay extends Component {
     return calendarAnimation && !scrollable ? (
       <Animated.View style={[
         styles.dateRootContainer,
-        {opacity: this.state.animatedValue}
+        { opacity: this.state.animatedValue }
       ]}>
         {day}
       </Animated.View>

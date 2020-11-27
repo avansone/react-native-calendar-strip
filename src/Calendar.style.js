@@ -40,6 +40,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   dateContainer: {
+    marginTop: 16,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center"
@@ -53,7 +54,10 @@ export default StyleSheet.create({
   },
   dateNumber: {
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center"
   },
   weekendDateNumber: {
     color: "#A7A7A7",
